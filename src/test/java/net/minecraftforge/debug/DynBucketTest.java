@@ -4,8 +4,8 @@ import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.ItemMeshDefinition;
-import net.minecraft.client.resources.model.ModelBakery;
-import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.client.renderer.block.model.ModelBakery;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -15,10 +15,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
+import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
@@ -256,7 +256,7 @@ public class DynBucketTest
             IFluidHandler tank = (IFluidHandler) te;
             side = side.getOpposite();
 
-            ItemStack stack = playerIn.getHeldItem();
+            ItemStack stack = playerIn.inventory.getCurrentItem();
             if (stack == null)
             {
                 sendText(playerIn, tank, side);
@@ -289,7 +289,7 @@ public class DynBucketTest
                 {
                     text = "empty";
                 }
-                player.addChatMessage(new ChatComponentText(text));
+                player.addChatMessage(new TextComponentString(text));
             }
         }
     }
@@ -362,11 +362,11 @@ public class DynBucketTest
         public Packet getDescriptionPacket() {
             NBTTagCompound tag = new NBTTagCompound();
             writeToNBT(tag);
-            return new S35PacketUpdateTileEntity(this.getPos(), this.getBlockMetadata(), tag);
+            return new SPacketUpdateTileEntity(this.getPos(), this.getBlockMetadata(), tag);
         }
 
         @Override
-        public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt) {
+        public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
             super.onDataPacket(net, pkt);
             readFromNBT(pkt.getNbtCompound());
         }
