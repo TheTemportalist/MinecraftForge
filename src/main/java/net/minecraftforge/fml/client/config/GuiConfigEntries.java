@@ -26,7 +26,7 @@ import net.minecraft.client.gui.GuiListExtended;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.common.FMLLog;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.ModContainer;
@@ -1500,22 +1500,26 @@ public class GuiConfigEntries extends GuiListExtended
             comment = I18n.format(configElement.getLanguageKey() + ".tooltip").replace("\\n", "\n");
 
             if (!comment.equals(configElement.getLanguageKey() + ".tooltip"))
-                Collections.addAll(toolTip, (EnumChatFormatting.GREEN + name + "\n" + EnumChatFormatting.YELLOW + comment).split("\n"));
+                toolTip = new ArrayList<String>(this.mc.fontRendererObj.listFormattedStringToWidth(
+                        TextFormatting.GREEN + name + "\n" + TextFormatting.YELLOW + comment, 300));
             else if (configElement.getComment() != null && !configElement.getComment().trim().isEmpty())
-                Collections.addAll(toolTip, (EnumChatFormatting.GREEN + name + "\n" + EnumChatFormatting.YELLOW + configElement.getComment()).split("\n"));
+                toolTip = new ArrayList<String>(this.mc.fontRendererObj.listFormattedStringToWidth(
+                        TextFormatting.GREEN + name + "\n" + TextFormatting.YELLOW + configElement.getComment(), 300));
             else
-                Collections.addAll(toolTip, (EnumChatFormatting.GREEN + name + "\n" + EnumChatFormatting.RED + "No tooltip defined.").split("\n"));
+                toolTip = new ArrayList<String>(this.mc.fontRendererObj.listFormattedStringToWidth(
+                        TextFormatting.GREEN + name + "\n" + TextFormatting.RED + "No tooltip defined.", 300));
 
             if ((configElement.getType() == ConfigGuiType.INTEGER
                     && (Integer.valueOf(configElement.getMinValue().toString()) != Integer.MIN_VALUE || Integer.valueOf(configElement.getMaxValue().toString()) != Integer.MAX_VALUE))
                     || (configElement.getType() == ConfigGuiType.DOUBLE
                     && (Double.valueOf(configElement.getMinValue().toString()) != -Double.MAX_VALUE || Double.valueOf(configElement.getMaxValue().toString()) != Double.MAX_VALUE)))
-                Collections.addAll(toolTip, (EnumChatFormatting.AQUA + I18n.format("fml.configgui.tooltip.defaultNumeric", configElement.getMinValue(), configElement.getMaxValue(), configElement.getDefault())).split("\n"));
+                toolTip.addAll(this.mc.fontRendererObj.listFormattedStringToWidth(
+                        TextFormatting.AQUA + I18n.format("fml.configgui.tooltip.defaultNumeric", configElement.getMinValue(), configElement.getMaxValue(), configElement.getDefault()), 300));
             else if (configElement.getType() != ConfigGuiType.CONFIG_CATEGORY)
-                Collections.addAll(toolTip, (EnumChatFormatting.AQUA + I18n.format("fml.configgui.tooltip.default", configElement.getDefault())).split("\n"));
+                toolTip.addAll(this.mc.fontRendererObj.listFormattedStringToWidth(TextFormatting.AQUA + I18n.format("fml.configgui.tooltip.default", configElement.getDefault()),300));
 
             if (configElement.requiresMcRestart() || owningScreen.allRequireMcRestart)
-                toolTip.add(EnumChatFormatting.RED + "[" + I18n.format("fml.configgui.gameRestartTitle") + "]");
+                toolTip.add(TextFormatting.RED + "[" + I18n.format("fml.configgui.gameRestartTitle") + "]");
         }
 
         @Override
@@ -1525,9 +1529,9 @@ public class GuiConfigEntries extends GuiListExtended
 
             if (drawLabel)
             {
-                String label = (!isValidValue ? EnumChatFormatting.RED.toString() :
-                        (isChanged ? EnumChatFormatting.WHITE.toString() : EnumChatFormatting.GRAY.toString()))
-                        + (isChanged ? EnumChatFormatting.ITALIC.toString() : "") + this.name;
+                String label = (!isValidValue ? TextFormatting.RED.toString() :
+                        (isChanged ? TextFormatting.WHITE.toString() : TextFormatting.GRAY.toString()))
+                        + (isChanged ? TextFormatting.ITALIC.toString() : "") + this.name;
                 this.mc.fontRendererObj.drawString(
                         label,
                         this.owningScreen.entryList.labelX,
