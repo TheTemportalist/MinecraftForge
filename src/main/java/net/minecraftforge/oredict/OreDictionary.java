@@ -351,7 +351,7 @@ public class OreDictionary
                     continue;
                 }
 
-                if(containsMatch(true, (ItemStack[])recipe.recipeItems.toArray(new ItemStack[recipe.recipeItems.size()]), replaceStacks))
+                if(containsMatch(true, recipe.recipeItems.toArray(new ItemStack[recipe.recipeItems.size()]), replaceStacks))
                 {
                     recipesToRemove.add((IRecipe)obj);
                     IRecipe newRecipe = new ShapelessOreRecipe(recipe, replacements);
@@ -364,7 +364,7 @@ public class OreDictionary
         recipes.addAll(recipesToAdd);
         if (recipesToRemove.size() > 0)
         {
-            FMLLog.info("Replaced %d ore recipies", recipesToRemove.size());
+            FMLLog.info("Replaced %d ore recipes", recipesToRemove.size());
         }
     }
 
@@ -402,11 +402,11 @@ public class OreDictionary
     }
 
     /**
-     * Gets all the integer ID for the ores that the specified item stakc is registered to.
+     * Gets all the integer ID for the ores that the specified item stack is registered to.
      * If the item stack is not linked to any ore, this will return an empty array and no new entry will be created.
      *
      * @param stack The item stack of the ore.
-     * @return An array of ids that this ore is registerd as.
+     * @return An array of ids that this ore is registered as.
      */
     public static int[] getOreIDs(ItemStack stack)
     {

@@ -248,7 +248,7 @@ public class GuiModList extends GuiScreen
 
             if (type != null)
             {
-                for (GuiButton b : (List<GuiButton>)buttonList)
+                for (GuiButton b : buttonList)
                 {
                     if (SortType.getTypeForButton(b) != null)
                     {
@@ -568,7 +568,7 @@ public class GuiModList extends GuiScreen
             if (line != null)
             {
                 int k = -4;
-                for (ITextComponent part : (Iterable<ITextComponent>)line) {
+                for (ITextComponent part : line) {
                     if (!(part instanceof TextComponentString))
                         continue;
                     k += GuiModList.this.fontRendererObj.getStringWidth(((TextComponentString)part).getChatComponentText_TextValue());
