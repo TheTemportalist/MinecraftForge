@@ -67,14 +67,11 @@ public class GuiEditArray extends GuiScreen
                 "\n" + TextFormatting.AQUA, configElement.getDefault(), configElement.getMinValue(), configElement.getMaxValue());
 
         if (!comment.equals(configElement.getLanguageKey() + ".tooltip"))
-            toolTip = mc.fontRendererObj.listFormattedStringToWidth(
-                    TextFormatting.GREEN + propName + "\n" + TextFormatting.YELLOW + comment, 300);
+            Collections.addAll(toolTip, (TextFormatting.GREEN + propName + "\n" + TextFormatting.YELLOW + comment).split("\n"));
         else if (configElement.getComment() != null && !configElement.getComment().trim().isEmpty())
-            toolTip = mc.fontRendererObj.listFormattedStringToWidth(
-                    TextFormatting.GREEN + propName + "\n" + TextFormatting.YELLOW + configElement.getComment(), 300);
+            Collections.addAll(toolTip, (TextFormatting.GREEN + propName + "\n" + TextFormatting.YELLOW + configElement.getComment()).split("\n"));
         else
-            toolTip = mc.fontRendererObj.listFormattedStringToWidth(
-                    TextFormatting.GREEN + propName + "\n" + TextFormatting.RED + "No tooltip defined.", 300);
+            Collections.addAll(toolTip, (TextFormatting.GREEN + propName + "\n" + TextFormatting.RED + "No tooltip defined.").split("\n"));
 
         if (parentScreen instanceof GuiConfig)
         {
