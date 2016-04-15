@@ -112,6 +112,11 @@ public enum KeyModifier {
         return activeModifiers;
     }
 
+    public static KeyModifier getActiveModifier()
+    {
+        return KeyModifier.NONE;
+    }
+
     public static boolean isKeyCodeModifier(int keyCode)
     {
         for (KeyModifier keyModifier : MODIFIER_VALUES)
