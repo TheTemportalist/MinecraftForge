@@ -6,11 +6,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static net.minecraft.realms.Tezzelator.t;
+
 public class KeyModifierSet {
 
 	public static final KeyModifierSet NONE = new KeyModifierSet();
 
-	private final Set<KeyModifier> modifiers;
+	private final HashSet<KeyModifier> modifiers;
 
 	public KeyModifierSet(KeyModifier... modifiers) {
 		this(Arrays.asList(modifiers));
@@ -27,8 +29,8 @@ public class KeyModifierSet {
 
 	public int getQuantityMatching(Set<KeyModifier> modifiers) {
 		int matches = 0;
-		for (KeyModifier modifier : this.modifiers)
-			if (modifiers.contains(modifier)) matches++;
+		for (KeyModifier modifier : modifiers)
+			if (this.modifiers.contains(modifier)) matches++;
 		return matches;
 	}
 
@@ -38,10 +40,16 @@ public class KeyModifierSet {
 		return true;
 	}
 
-	public boolean matches(int keyCode) {
-		for (KeyModifier modifier : this.modifiers)
-			if (modifier.matches(keyCode)) return true;
+	public boolean contains(int keyCode) {
+		if (KeyModifier.isKeyCodeModifier(keyCode)) {
+			for (KeyModifier modifier : this.modifiers)
+				if (modifier.matches(keyCode)) return true;
+		}
 		return false;
+	}
+
+	public int size() {
+		return this.modifiers == null ? 0 : this.modifiers.size();
 	}
 
 	@Override
@@ -54,8 +62,13 @@ public class KeyModifierSet {
 
 	@Override
 	public boolean equals(Object obj) {
-		return obj instanceof KeyModifierSet &&
-				this.modifiers.equals(((KeyModifierSet) obj).modifiers);
+		if (obj instanceof KeyModifierSet) {
+			KeyModifierSet other = (KeyModifierSet)obj;
+			if (this.modifiers.size() == other.modifiers.size()) {
+				return this.modifiers.containsAll(other.modifiers);
+			}
+		}
+		return false;
 	}
 
 }
