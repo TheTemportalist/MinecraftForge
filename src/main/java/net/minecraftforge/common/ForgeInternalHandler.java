@@ -1,10 +1,13 @@
 package net.minecraftforge.common;
 
+import net.minecraft.client.gui.GuiOptions;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.WorldServer;
+import net.minecraftforge.client.event.GuiScreenEvent;
+import net.minecraftforge.client.settings.gui.GuiMenuCategories;
 import net.minecraftforge.common.util.FakePlayerFactory;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.world.WorldEvent;
@@ -77,4 +80,14 @@ public class ForgeInternalHandler
         if (event.getWorld() instanceof WorldServer)
             FakePlayerFactory.unloadWorld((WorldServer) event.getWorld());
     }
+
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    public void onGuiOpenned(GuiScreenEvent.ActionPerformedEvent.Pre event) {
+        if (event.getGui() instanceof GuiOptions && event.getButton().id == 100) {
+            event.setCanceled(true);
+            event.getGui().mc.displayGuiScreen(new GuiMenuCategories(
+                    (GuiOptions)event.getGui(), event.getGui().mc.gameSettings));
+        }
+    }
+
 }
