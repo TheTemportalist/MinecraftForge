@@ -1,18 +1,16 @@
 package net.minecraftforge.client.settings;
 
 import java.util.Arrays;
-import java.util.HashSet;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
-
-import static net.minecraft.realms.Tezzelator.t;
 
 public class KeyModifierSet
 {
 
     public static final KeyModifierSet NONE = new KeyModifierSet();
 
-    private final HashSet<KeyModifier> modifiers;
+    private final EnumSet<KeyModifier> modifiers;
 
     public KeyModifierSet(KeyModifier... modifiers)
     {
@@ -21,7 +19,7 @@ public class KeyModifierSet
 
     public KeyModifierSet(List<KeyModifier> modifiers)
     {
-        this.modifiers = new HashSet<KeyModifier>();
+        this.modifiers = EnumSet.allOf(KeyModifier.class);
         this.modifiers.addAll(modifiers);
     }
 

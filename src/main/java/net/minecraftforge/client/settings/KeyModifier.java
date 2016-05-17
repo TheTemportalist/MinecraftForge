@@ -6,6 +6,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.client.settings.GameSettings;
 import org.lwjgl.input.Keyboard;
 
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -100,9 +101,9 @@ public enum KeyModifier {
 
     public static final KeyModifier[] MODIFIER_VALUES = {SHIFT, CONTROL, ALT};
 
-    public static Set<KeyModifier> getActiveModifiers()
+    public static EnumSet<KeyModifier> getActiveModifiers()
     {
-        Set<KeyModifier> activeModifiers = new HashSet<KeyModifier>();
+        EnumSet<KeyModifier> activeModifiers = EnumSet.allOf(KeyModifier.class);
         for (KeyModifier keyModifier : MODIFIER_VALUES)
         {
             if (keyModifier.isActive())

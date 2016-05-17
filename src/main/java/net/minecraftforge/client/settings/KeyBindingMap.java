@@ -24,7 +24,7 @@ public class KeyBindingMap
         HashMap<KeyModifierSet, Collection<KeyBinding>> keyLookupResult = map.lookup(keyCode);
 
         // The currently pressed modifiers
-        Set<KeyModifier> activeModifiers = KeyModifier.getActiveModifiers();
+        EnumSet<KeyModifier> activeModifiers = KeyModifier.getActiveModifiers();
         // The set with the most matches
         KeyModifierSet greatestMatchingSet = null;
         // The most matches found
