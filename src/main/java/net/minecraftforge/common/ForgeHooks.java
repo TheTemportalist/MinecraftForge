@@ -671,7 +671,8 @@ public class ForgeHooks
         {
             SPacketBlockChange packet = new SPacketBlockChange(world, pos);
             packet.blockState = Blocks.air.getDefaultState();
-            entityPlayer.playerNetServerHandler.sendPacket(packet);
+            if (entityPlayer.playerNetServerHandler != null)
+                entityPlayer.playerNetServerHandler.sendPacket(packet);
         }
 
         // Post the block break event
@@ -684,7 +685,8 @@ public class ForgeHooks
         if (event.isCanceled())
         {
             // Let the client know the block still exists
-            entityPlayer.playerNetServerHandler.sendPacket(new SPacketBlockChange(world, pos));
+            if (entityPlayer.playerNetServerHandler != null)
+                entityPlayer.playerNetServerHandler.sendPacket(new SPacketBlockChange(world, pos));
 
             // Update any tile entity data for this block
             TileEntity tileentity = world.getTileEntity(pos);
@@ -693,7 +695,8 @@ public class ForgeHooks
                 Packet<?> pkt = tileentity.getDescriptionPacket();
                 if (pkt != null)
                 {
-                    entityPlayer.playerNetServerHandler.sendPacket(pkt);
+                    if (entityPlayer.playerNetServerHandler != null)
+                        entityPlayer.playerNetServerHandler.sendPacket(pkt);
                 }
             }
         }
@@ -912,7 +915,7 @@ public class ForgeHooks
             // Revert variable back to true as it would have been set to false
             if (entity instanceof EntityMinecartContainer)
             {
-               ((EntityMinecartContainer) entity).dropContentsWhenDead = true;
+                ((EntityMinecartContainer) entity).dropContentsWhenDead = true;
             }
         }
         return !event.isCanceled();
